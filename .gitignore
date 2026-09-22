@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.next/
+out/
+.lighthouseci/
+reports/raw/
+*.log
+.DS_Store
+.env
+b-single-spa/root-config/public/

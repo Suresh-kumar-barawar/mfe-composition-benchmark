@@ -1,0 +1,16 @@
+{
+  "name": "@mfe/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FakeStore API client, cart store, formatting, shared CSS and React view components used by all three implementations so the UI is identical and only the composition strategy differs.",
+  "exports": {
+    "./api": "./src/api.js",
+    "./cart": "./src/cart.js",
+    "./format": "./src/format.js",
+    "./styles.css": "./src/styles.css",
+    "./react": "./src/react/index.js"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0"
+  }
+}

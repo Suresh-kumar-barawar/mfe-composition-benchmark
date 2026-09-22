@@ -1,0 +1,16 @@
+{
+  "name": "a-pdp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "serve": "node ../../tools/static-server.js dist 3003 --spa"
+  },
+  "dependencies": {
+    "@mfe/shared": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  }
+}

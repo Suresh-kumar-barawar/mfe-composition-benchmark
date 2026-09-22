@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ShopMFE: e-commerce benchmark app composed at runtime with Single-SPA." />
+    <title>ShopMFE – Single-SPA</title>
+    <link rel="stylesheet" href="/main.css" />
+    <!-- Import map: tells SystemJS where every shared library and micro frontend lives. -->
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "react": "/vendor/react.production.min.js",
+          "react-dom": "/vendor/react-dom.production.min.js",
+          "react-dom/client": "/vendor/react-dom.production.min.js",
+          "single-spa": "/vendor/single-spa.min.js",
+          "@shop/root-config": "/shop-root-config.js",
+          "@shop/navbar": "<%= urls.navbar %>/shop-navbar.js",
+          "@shop/home": "<%= urls.home %>/shop-home.js",
+          "@shop/plp": "<%= urls.plp %>/shop-plp.js",
+          "@shop/pdp": "<%= urls.pdp %>/shop-pdp.js",
+          "@shop/cart": "<%= urls.cart %>/shop-cart.js"
+        }
+      }
+    </script>
+    <script src="/vendor/system.min.js"></script>
+    <script src="/vendor/amd.min.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <div id="mfe-header" class="mfe-header-slot"></div>
+      <main id="mfe-main" class="mfe-main">
+        <div id="mfe-error" class="container page mfe-error" role="alert" hidden></div>
+        <div id="mfe-not-found" class="container page" hidden><h1 class="page__title">Page not found</h1></div>
+      </main>
+      <div id="mfe-footer"></div>
+    </div>
+    <script>
+      System.import('@shop/root-config');
+    </script>
+  </body>
+</html>

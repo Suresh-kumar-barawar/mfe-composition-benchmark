@@ -1,0 +1,10 @@
+{
+  "name": "mfe-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production static server used to serve every client-side build identically (gzip, caching, SPA fallback, CORS).",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.21.0"
+  }
+}

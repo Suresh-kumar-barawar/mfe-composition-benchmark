@@ -1,0 +1,37 @@
+{
+  "name": "mfe-composition-benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Performance comparison of micro frontend composition strategies (Module Federation, Single-SPA, React Server Components) on an identical e-commerce app backed by FakeStore API.",
+  "workspaces": [
+    "tools",
+    "shared",
+    "a-module-federation/*",
+    "b-single-spa/*"
+  ],
+  "scripts": {
+    "a:dev": "concurrently -n shell,home,plp,pdp,cart \"npm run dev -w a-shell\" \"npm run dev -w a-home\" \"npm run dev -w a-plp\" \"npm run dev -w a-pdp\" \"npm run dev -w a-cart\"",
+    "a:build": "npm run build -w a-home -w a-plp -w a-pdp -w a-cart -w a-shell",
+    "a:start": "concurrently -n shell,home,plp,pdp,cart \"npm run serve -w a-shell\" \"npm run serve -w a-home\" \"npm run serve -w a-plp\" \"npm run serve -w a-pdp\" \"npm run serve -w a-cart\"",
+    "a:analyze": "ANALYZE=1 npm run a:build",
+    "b:dev": "concurrently -n root,navbar,home,plp,pdp,cart \"npm run dev -w b-root-config\" \"npm run dev -w b-navbar\" \"npm run dev -w b-home\" \"npm run dev -w b-plp\" \"npm run dev -w b-pdp\" \"npm run dev -w b-cart\"",
+    "b:build": "npm run build -w b-navbar -w b-home -w b-plp -w b-pdp -w b-cart -w b-root-config",
+    "b:start": "concurrently -n root,navbar,home,plp,pdp,cart \"npm run serve -w b-root-config\" \"npm run serve -w b-navbar\" \"npm run serve -w b-home\" \"npm run serve -w b-plp\" \"npm run serve -w b-pdp\" \"npm run serve -w b-cart\"",
+    "b:analyze": "ANALYZE=1 npm run b:build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "@babel/preset-env": "^7.25.0",
+    "@babel/preset-react": "^7.24.0",
+    "babel-loader": "^9.2.0",
+    "concurrently": "^9.0.0",
+    "css-loader": "^7.1.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "webpack": "^5.95.0",
+    "webpack-bundle-analyzer": "^4.10.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "engines": { "node": ">=20" }
+}

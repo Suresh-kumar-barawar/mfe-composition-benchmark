@@ -1,0 +1,17 @@
+{
+  "name": "b-root-config",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/copy-vendor.js public/vendor && webpack serve --mode development",
+    "build": "webpack --mode production && node scripts/copy-vendor.js dist/vendor",
+    "serve": "node ../../tools/static-server.js dist 3100 --spa"
+  },
+  "dependencies": {
+    "@mfe/shared": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "single-spa": "^6.0.3",
+    "systemjs": "^6.15.1"
+  }
+}
