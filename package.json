@@ -17,7 +17,9 @@
     "b:dev": "concurrently -n root,navbar,home,plp,pdp,cart \"npm run dev -w b-root-config\" \"npm run dev -w b-navbar\" \"npm run dev -w b-home\" \"npm run dev -w b-plp\" \"npm run dev -w b-pdp\" \"npm run dev -w b-cart\"",
     "b:build": "npm run build -w b-navbar -w b-home -w b-plp -w b-pdp -w b-cart -w b-root-config",
     "b:start": "concurrently -n root,navbar,home,plp,pdp,cart \"npm run serve -w b-root-config\" \"npm run serve -w b-navbar\" \"npm run serve -w b-home\" \"npm run serve -w b-plp\" \"npm run serve -w b-pdp\" \"npm run serve -w b-cart\"",
-    "b:analyze": "ANALYZE=1 npm run b:build"
+    "b:analyze": "ANALYZE=1 npm run b:build",
+    "bench": "npm --prefix bench run bench --",
+    "bench:analyze": "python3 bench/analyze.py"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",
@@ -33,5 +35,7 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }

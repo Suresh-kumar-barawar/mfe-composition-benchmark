@@ -85,6 +85,28 @@ npm run b:analyze
 
 **B – Single-SPA.** `root-config` serves an HTML page with a SystemJS **import map** and registers every app with an activity function on the URL. Each app is a separate SystemJS module exposing `bootstrap/mount/unmount` (via `single-spa-react`). React, ReactDOM and single-spa are self-hosted by root-config and loaded once through the import map. A failed app load is handled by a global error handler that shows a fallback.
 
+## Benchmarking (automated Lighthouse runs)
+
+`bench/run.mjs` launches a fresh cold-cache headless Chrome for every
+implementation × page × network profile × run and records FCP, LCP, TBT, CLS, TTI,
+Speed Index, JS bytes and request counts with **real DevTools throttling** (4x CPU).
+Implementations are interleaved (A, B, A, B …) so external drift affects them equally.
+
+```bash
+cd bench && npm install && cd ..
+npm run a:start & npm run b:start &              # apps must be running
+npm run bench -- --runs 1 --impl A,B             # add --network slow-3g,fast-4g,broadband --pages home,plp,pdp,cart
+npm run bench:analyze -- bench/results/<run>     # summary.csv + charts/*.png
+```
+
+| Profile | Down | Up | Latency |
+|---|---|---|---|
+| Slow 3G | 400 Kbps | 400 Kbps | 400 ms |
+| Fast 4G | 9 Mbps | 1.5 Mbps | 170 ms |
+| Broadband | 40 Mbps | 10 Mbps | 20 ms |
+
+Mid-semester results (1 run per configuration, A vs B): `bench/results/midsem-run1/`.
+
 ## Error-isolation check
 
 Stop one remote while the others keep running, then reload:
@@ -102,6 +124,7 @@ Only the Cart page shows *"This section is temporarily unavailable"*; the rest o
 - [x] A – Module Federation
 - [x] B – Single-SPA
 - [ ] C – Next.js 15 + React Server Components
-- [ ] Automated Lighthouse benchmark (apps × pages × network profiles × runs)
+- [x] Automated Lighthouse runner + single-run A vs B results
+- [ ] Full repeated-run benchmark (evaluating Lighthouse CI / GitHub Actions / WebPageTest API)
 - [ ] Cloud deployment on identical infrastructure
 - [ ] Qualitative comparison and decision framework

@@ -1,0 +1,62 @@
+{
+ "A/shell": {
+  "files": 5,
+  "raw_kb": 233.3,
+  "gz_kb": 76.3
+ },
+ "A/home": {
+  "files": 8,
+  "raw_kb": 239.4,
+  "gz_kb": 80.1
+ },
+ "A/plp": {
+  "files": 8,
+  "raw_kb": 241.1,
+  "gz_kb": 80.6
+ },
+ "A/pdp": {
+  "files": 8,
+  "raw_kb": 239.7,
+  "gz_kb": 80.1
+ },
+ "A/cart": {
+  "files": 8,
+  "raw_kb": 238.6,
+  "gz_kb": 79.5
+ },
+ "B/root-config": {
+  "files": 1,
+  "raw_kb": 1.6,
+  "gz_kb": 0.8
+ },
+ "B/root-config/vendor": {
+  "files": 5,
+  "raw_kb": 171.2,
+  "gz_kb": 57.7
+ },
+ "B/navbar": {
+  "files": 1,
+  "raw_kb": 12.2,
+  "gz_kb": 4.3
+ },
+ "B/home": {
+  "files": 1,
+  "raw_kb": 13.6,
+  "gz_kb": 4.7
+ },
+ "B/plp": {
+  "files": 1,
+  "raw_kb": 15.5,
+  "gz_kb": 5.2
+ },
+ "B/pdp": {
+  "files": 1,
+  "raw_kb": 14.2,
+  "gz_kb": 4.8
+ },
+ "B/cart": {
+  "files": 1,
+  "raw_kb": 13.8,
+  "gz_kb": 4.6
+ }
+}
