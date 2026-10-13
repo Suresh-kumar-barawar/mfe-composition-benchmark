@@ -1,7 +1,9 @@
 # Automated Lighthouse benchmark on a GitHub-hosted runner (free for public repositories).
 #
 # target = local     build A, B and C on the runner and measure them on localhost
-#                    (identical machine and server conditions for all three)
+#                    (identical machine and server conditions for all three). Data come from
+#                    the self-hosted FakeStore mock (mock-api/, :3300) – the live API blocks
+#                    GitHub's runners – unless api_url is set.
 # target = deployed  measure the deployed sites given in a_url / b_url / c_url
 #
 # Results: uploaded as an artifact AND committed to the branch "bench-results/<label>"
@@ -10,6 +12,8 @@
 #
 # Start it from the Actions tab ("Run workflow") or:
 #   gh workflow run benchmark.yml -f target=local -f runs=5 -f label=final-local
+#   gh workflow run benchmark.yml -f target=deployed -f warmup=1 -f label=vercel-run1 \
+#     -f urls=A=https://….vercel.app,B=https://….vercel.app,C=https://….vercel.app
 name: Benchmark
 
 on:
@@ -35,14 +39,11 @@ on:
       warmup:
         description: "Plain warm-up requests per URL before each audit (use 1 for deployed)"
         default: "0"
-      a_url:
-        description: "A base URL (deployed only)"
-        default: ""
-      b_url:
-        description: "B base URL (deployed only)"
-        default: ""
-      c_url:
-        description: "C base URL (deployed only)"
+      api_url:
+        description: "Data API for local builds (default: the mock on the runner, http://localhost:3300)"
+        default: "http://localhost:3300"
+      urls:
+        description: "Deployed base URLs (deployed only), e.g. A=https://a.vercel.app,B=https://b.vercel.app,C=https://c.vercel.app"
         default: ""
       label:
         description: "Name of the results folder / branch"
@@ -65,8 +66,21 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Resolve target URLs
+        run: |
+          A=http://localhost:3000; B=http://localhost:3100; C=http://localhost:3200
+          if [ "${{ inputs.target }}" = deployed ]; then
+            for kv in $(echo "${{ inputs.urls }}" | tr ',' ' '); do
+              case "$kv" in A=*) A="${kv#A=}";; B=*) B="${kv#B=}";; C=*) C="${kv#C=}";; esac
+            done
+          fi
+          echo "A_URL=$A" >> "$GITHUB_ENV"; echo "B_URL=$B" >> "$GITHUB_ENV"; echo "C_URL=$C" >> "$GITHUB_ENV"
+          echo "::notice title=Targets::A=$A B=$B C=$C"
+
       - name: Build and start A, B and C on the runner
         if: inputs.target == 'local'
+        env:
+          API_URL: ${{ inputs.api_url }}
         run: |
           npm ci
           npm run a:build
@@ -76,10 +90,6 @@ jobs:
 
       - name: Functional check before measuring
         working-directory: tests
-        env:
-          A_URL: ${{ inputs.target == 'deployed' && inputs.a_url || 'http://localhost:3000' }}
-          B_URL: ${{ inputs.target == 'deployed' && inputs.b_url || 'http://localhost:3100' }}
-          C_URL: ${{ inputs.target == 'deployed' && inputs.c_url || 'http://localhost:3200' }}
         run: |
           npm ci
           npx playwright install --with-deps chromium
@@ -87,10 +97,6 @@ jobs:
 
       - name: Run Lighthouse benchmark
         working-directory: bench
-        env:
-          A_URL: ${{ inputs.target == 'deployed' && inputs.a_url || 'http://localhost:3000' }}
-          B_URL: ${{ inputs.target == 'deployed' && inputs.b_url || 'http://localhost:3100' }}
-          C_URL: ${{ inputs.target == 'deployed' && inputs.c_url || 'http://localhost:3200' }}
         run: |
           npm ci
           node run.mjs --runs "${{ inputs.runs }}" --impl "${{ inputs.impl }}" \
@@ -101,7 +107,7 @@ jobs:
         run: |
           pip install --quiet matplotlib
           python3 bench/analyze.py "$OUT"
-          echo "target=${{ inputs.target }}" > "$OUT/target.txt"
+          echo "target=${{ inputs.target }} api_url=${{ inputs.api_url }}" > "$OUT/target.txt"
           nproc >> "$OUT/target.txt"; lscpu | grep 'Model name' >> "$OUT/target.txt" || true
 
       - uses: actions/upload-artifact@v4

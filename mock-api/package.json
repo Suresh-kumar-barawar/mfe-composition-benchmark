@@ -1,0 +1,14 @@
+{
+  "name": "mock-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Self-hosted FakeStore API mock: a fixed snapshot of fakestoreapi.com's 20 products on the same routes, with size-matched synthetic images. Used for controlled and cloud benchmarks.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.21.0"
+  }
+}

@@ -6,6 +6,7 @@
   "workspaces": [
     "tools",
     "shared",
+    "mock-api",
     "a-module-federation/*",
     "b-single-spa/*",
     "c-nextjs-rsc/*"
@@ -23,7 +24,8 @@
     "c:build": "npm run build -w c-host",
     "c:start": "npm run start -w c-host",
     "bench": "npm --prefix bench run bench --",
-    "bench:analyze": "python3 bench/analyze.py"
+    "bench:analyze": "python3 bench/analyze.py",
+    "api:start": "npm run start -w mock-api"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",

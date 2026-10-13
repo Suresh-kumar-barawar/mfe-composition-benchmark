@@ -1,5 +1,7 @@
 # Build all three implementations, run the 14-behaviour functional check and one quick
 # Lighthouse sanity run per implementation. Runs on every push and can be started by hand.
+# The apps use the self-hosted FakeStore mock (mock-api/, port 3300): the live
+# fakestoreapi.com answers GitHub's runners with HTTP 403 (bot check).
 name: CI
 
 on:
@@ -12,6 +14,7 @@ jobs:
     timeout-minutes: 45
     env:
       NEXT_TELEMETRY_DISABLED: 1
+      API_URL: http://localhost:3300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

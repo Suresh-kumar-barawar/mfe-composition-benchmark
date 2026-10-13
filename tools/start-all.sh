@@ -2,9 +2,12 @@
 # Starts the production builds of A, B and C in the background and waits until every
 # server answers. Used by the GitHub Actions workflows (and handy locally).
 #   bash tools/start-all.sh            # after npm run a:build && npm run b:build && npm run c:build
+# Also starts the FakeStore mock API on :3300 (used when the apps were built with
+# API_URL=http://localhost:3300).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p logs
+nohup npm run api:start > logs/api.log 2>&1 &
 nohup npm run a:start > logs/a.log 2>&1 &
 nohup npm run b:start > logs/b.log 2>&1 &
 NEXT_TELEMETRY_DISABLED=1 nohup npm run c:start > logs/c.log 2>&1 &
@@ -16,11 +19,11 @@ wait_for() {
   echo "Timed out waiting for $1" >&2
   return 1
 }
-for url in http://localhost:3000/ http://localhost:3001/remoteEntry.js http://localhost:3002/remoteEntry.js \
+for url in http://localhost:3300/products http://localhost:3000/ http://localhost:3001/remoteEntry.js http://localhost:3002/remoteEntry.js \
            http://localhost:3003/remoteEntry.js http://localhost:3004/remoteEntry.js \
            http://localhost:3100/ http://localhost:3101/shop-navbar.js http://localhost:3102/shop-home.js \
            http://localhost:3103/shop-plp.js http://localhost:3104/shop-pdp.js http://localhost:3105/shop-cart.js \
            http://localhost:3200/; do
   wait_for "$url"
 done
-echo "A (3000-3004), B (3100-3105) and C (3200) are up."
+echo "Mock API (3300), A (3000-3004), B (3100-3105) and C (3200) are up."

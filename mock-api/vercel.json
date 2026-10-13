@@ -1,0 +1,35 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd .. && npm ci --no-audit --no-fund",
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "headers": [
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=14400"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/products",
+      "destination": "/api/products"
+    },
+    {
+      "source": "/products/:path*",
+      "destination": "/api/products/:path*"
+    },
+    {
+      "source": "/carts",
+      "destination": "/api/carts"
+    }
+  ]
+}

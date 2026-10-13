@@ -22,7 +22,7 @@ A four-page shop, split into four MFE domains plus shared chrome:
 | Cart | `/cart` | Quantity update, remove, totals, checkout |
 | Header / Footer | all pages | Navigation, search, live cart badge |
 
-**Data:** the public [FakeStore API](https://fakestoreapi.com). It has no search, price sort or pagination endpoints, so the listing page fetches the catalogue and applies these in the app (`shared/src/api.js → queryProducts`). Reviews are shown as FakeStore's rating and count only.
+**Data:** the public [FakeStore API](https://fakestoreapi.com) by default, or our self-hosted copy `mock-api/` (port 3300, `npm run api:start`): a fixed snapshot of FakeStore's 20 products on the same routes, with synthetic product images of identical pixel and byte size. The mock is used for CI, GitHub-runner benchmarks and the cloud deployment, because the live API blocks data-centre machines (HTTP 403 bot check) and its latency varies. Choose with `API_URL=http://localhost:3300` at build time. It has no search, price sort or pagination endpoints, so the listing page fetches the catalogue and applies these in the app (`shared/src/api.js → queryProducts`). Reviews are shown as FakeStore's rating and count only.
 
 ## Controlled variables (fair comparison)
 
@@ -49,6 +49,9 @@ b-single-spa/           B: root-config (import map) + navbar, home, plp, pdp, ca
 c-nextjs-rsc/           C: host (Next.js App Router) + home, plp, pdp, cart MFE packages + common adapters
 bench/                  Lighthouse runner (run.mjs) and analysis (analyze.py)
 tests/                  functional.mjs – 14-behaviour headless-browser check for A, B and C
+mock-api/               FakeStore API mock (Express; also deployable to Vercel)
+docs/                   DEPLOYMENT.md, MEASUREMENT_VALIDATION.md
+.github/workflows/      ci.yml (build + tests on every push), benchmark.yml (manual benchmark runs)
 ```
 
 ### Ports
@@ -124,6 +127,10 @@ npm run bench:analyze -- bench/results/<run>     # summary.csv + charts/*.png
 | Broadband | 40 Mbps | 10 Mbps | 20 ms |
 
 Mid-semester results (1 run per configuration, A vs B, **React 18**): `bench/results/midsem-run1/`.
+
+**Measurement fix (Oct 2026):** the runner now starts Chrome with flags that stop headless Chrome from holding back the first frame under Lighthouse; before, B's and C's FCP on Fast 4G was over-reported (~2.4 s instead of ~1.4 s / ~0.5 s). See [`docs/MEASUREMENT_VALIDATION.md`](docs/MEASUREMENT_VALIDATION.md). The mid-semester B values on Fast 4G were affected. Check runs with A, B and C: `bench/results/check-r19-artefact/` (before the fix), `bench/results/check-r19-run2/` (after).
+
+On GitHub: *Actions → Benchmark → Run workflow* runs the same benchmark on a GitHub runner (`target=local`: builds everything on the runner with the mock API; `target=deployed`: measures deployed URLs).
 
 ## Error-isolation check
 
