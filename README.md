@@ -57,7 +57,7 @@ b-single-spa/           B: root-config (import map) + navbar, home, plp, pdp, ca
 
 ## Running
 
-Requires Node.js 20+.
+Requires Node.js 20+. All implementations use **React 19** (Next.js 15's App Router requires it; A and B were moved from React 18 so the React version is the same in all three).
 
 ```bash
 npm install
@@ -83,7 +83,7 @@ npm run b:analyze
 
 **A – Module Federation.** The shell owns routing, header and footer. Each page is a *remote* built and deployed separately; the shell loads its `remoteEntry.js` on first navigation (`React.lazy`). React, ReactDOM and React Router are shared **singletons** negotiated by webpack at runtime. Each remote is wrapped in its own error boundary. Remotes can also run standalone for development.
 
-**B – Single-SPA.** `root-config` serves an HTML page with a SystemJS **import map** and registers every app with an activity function on the URL. Each app is a separate SystemJS module exposing `bootstrap/mount/unmount` (via `single-spa-react`). React, ReactDOM and single-spa are self-hosted by root-config and loaded once through the import map. A failed app load is handled by a global error handler that shows a fallback.
+**B – Single-SPA.** `root-config` serves an HTML page with a SystemJS **import map** and registers every app with an activity function on the URL. Each app is a separate SystemJS module exposing `bootstrap/mount/unmount` (via `single-spa-react`). React, ReactDOM and single-spa are self-hosted by root-config and loaded once through the import map. React 19 no longer ships UMD files, so `root-config/webpack.vendor.js` compiles `react`, `react-dom` and `react-dom/client` into SystemJS modules (`dist/vendor/`). A failed app load is handled by a global error handler that shows a fallback.
 
 ## Benchmarking (automated Lighthouse runs)
 
@@ -105,7 +105,7 @@ npm run bench:analyze -- bench/results/<run>     # summary.csv + charts/*.png
 | Fast 4G | 9 Mbps | 1.5 Mbps | 170 ms |
 | Broadband | 40 Mbps | 10 Mbps | 20 ms |
 
-Mid-semester results (1 run per configuration, A vs B): `bench/results/midsem-run1/`.
+Mid-semester results (1 run per configuration, A vs B, **React 18**): `bench/results/midsem-run1/`.
 
 ## Error-isolation check
 
