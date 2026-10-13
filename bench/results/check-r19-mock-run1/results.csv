@@ -1,0 +1,37 @@
+timestamp,impl,strategy,page,network,run,url,perf_score,fcp_ms,lcp_ms,tbt_ms,cls,tti_ms,si_ms,max_fid_ms,requests,js_requests,js_transfer_kb,js_resource_kb,total_transfer_kb,lcp_element,runtime_error,warnings,duration_s
+2026-10-13T22:45:47.004Z,A,Module Federation,home,slow-3g,1,http://localhost:3000/,63,3845,31454,0,0.005,29055,5401,50,24,12,112.4,314.9,1631.3,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,51.8
+2026-10-13T22:46:38.539Z,B,Single-SPA,home,slow-3g,1,http://localhost:3100/,62,4639,31735,0,0.005,4639,5537,46,21,9,86.4,250.1,1605.8,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,51.5
+2026-10-13T22:47:30.378Z,C,Next.js RSC,home,slow-3g,1,http://localhost:3200/,74,1366,29285,67,0,9441,2713,117,18,8,111.3,362,1634.4,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,51.8
+2026-10-13T22:48:24.172Z,A,Module Federation,plp,slow-3g,1,http://localhost:3000/products,60,3912,34494,0,0.0315,3912,7922,42,24,12,112.9,316.4,1849.7,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,53.8
+2026-10-13T22:49:18.160Z,B,Single-SPA,plp,slow-3g,1,http://localhost:3100/products,59,4612,34734,2,0.0315,29057,7826,52,21,9,87,252,1824.2,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,54.0
+2026-10-13T22:50:07.156Z,C,Next.js RSC,plp,slow-3g,1,http://localhost:3200/products,71,1163,29645,91,0,9530,5247,141,17,8,111.3,362.6,1518,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,49.0
+2026-10-13T22:50:33.266Z,A,Module Federation,pdp,slow-3g,1,http://localhost:3000/product/1,65,3890,10575,0,0.0652,3890,3850,31,17,12,112.4,315.1,385.8,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,26.1
+2026-10-13T22:50:59.427Z,B,Single-SPA,pdp,slow-3g,1,http://localhost:3100/product/1,65,4587,10828,0,0,4587,3613,24,14,9,86.5,250.7,360.3,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,26.2
+2026-10-13T22:51:23.701Z,C,Next.js RSC,pdp,slow-3g,1,http://localhost:3200/product/1,73,1273,8674,99,0.081,4512,1920,149,12,8,111.3,362,390.1,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,24.3
+2026-10-13T22:51:43.709Z,A,Module Federation,cart,slow-3g,1,http://localhost:3000/cart,80,3909,3909,0,0,3909,2377,16,15,12,112.4,315,117.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,20.0
+2026-10-13T22:52:03.878Z,B,Single-SPA,cart,slow-3g,1,http://localhost:3100/cart,75,4581,4581,0,0,4581,1657,21,12,9,86.3,250.3,91.6,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,20.2
+2026-10-13T22:52:22.835Z,C,Next.js RSC,cart,slow-3g,1,http://localhost:3200/cart,99,1290,1290,74,0,3469,2049,124,12,9,112.6,363,121.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,19.0
+2026-10-13T22:52:41.520Z,A,Module Federation,home,fast-4g,1,http://localhost:3000/,96,1091,2804,0,0.005,1091,1494,41,22,12,112.4,314.9,1269.5,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,18.7
+2026-10-13T22:53:00.004Z,B,Single-SPA,home,fast-4g,1,http://localhost:3100/,94,1496,2963,0,0.005,1496,1639,38,19,9,86.4,250.1,1244,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,18.5
+2026-10-13T22:53:17.442Z,C,Next.js RSC,home,fast-4g,1,http://localhost:3200/,99,609,1450,131,0,1024,760,181,16,8,111.3,362,1272.6,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,17.4
+2026-10-13T22:53:36.025Z,A,Module Federation,plp,fast-4g,1,http://localhost:3000/products,96,1129,2750,0,0.0315,1129,1825,33,21,12,112.9,316.4,1221.6,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,18.6
+2026-10-13T22:53:55.044Z,B,Single-SPA,plp,fast-4g,1,http://localhost:3100/products,95,1441,2874,8,0.0315,1740,1850,58,18,9,87,252,1196.2,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,19.0
+2026-10-13T22:54:12.382Z,C,Next.js RSC,plp,fast-4g,1,http://localhost:3200/products,99,522,1480,131,0,964,1058,181,15,8,111.3,362.6,1224.4,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,17.3
+2026-10-13T22:54:29.335Z,A,Module Federation,pdp,fast-4g,1,http://localhost:3000/product/1,99,1040,1984,0,0,1040,1167,28,17,12,112.4,315.1,385.8,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,17.0
+2026-10-13T22:54:46.819Z,B,Single-SPA,pdp,fast-4g,1,http://localhost:3100/product/1,98,1532,2260,0,0,1532,1226,27,14,9,86.5,250.7,360.3,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,17.5
+2026-10-13T22:55:03.021Z,C,Next.js RSC,pdp,fast-4g,1,http://localhost:3200/product/1,98,537,975,105,0.081,862,735,155,12,8,111.3,362,390.1,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,16.2
+2026-10-13T22:55:19.309Z,A,Module Federation,cart,fast-4g,1,http://localhost:3000/cart,100,1065,1065,0,0,1065,735,16,15,12,112.4,315,117.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,16.3
+2026-10-13T22:55:35.741Z,B,Single-SPA,cart,fast-4g,1,http://localhost:3100/cart,100,1473,1473,0,0,1473,619,16,12,9,86.3,250.3,91.6,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,16.4
+2026-10-13T22:55:51.831Z,C,Next.js RSC,cart,fast-4g,1,http://localhost:3200/cart,100,491,491,65,0,685,611,115,12,9,112.6,363,121.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,16.1
+2026-10-13T22:56:08.284Z,A,Module Federation,home,broadband,1,http://localhost:3000/,100,510,1271,0,0,510,788,46,22,12,112.4,314.9,1269.5,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,16.5
+2026-10-13T22:56:24.606Z,B,Single-SPA,home,broadband,1,http://localhost:3100/,100,581,982,0,0,581,569,34,19,9,86.4,250.1,1244,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,16.3
+2026-10-13T22:56:40.953Z,C,Next.js RSC,home,broadband,1,http://localhost:3200/,100,299,776,82,0,600,393,132,16,8,111.3,362,1272.6,WD 4TB Gaming Drive Works with Playstation 4 Portable Extern,,0,16.3
+2026-10-13T22:56:57.732Z,A,Module Federation,plp,broadband,1,http://localhost:3000/products,100,443,1086,0,0,443,687,26,21,12,112.9,316.4,1221.6,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,16.8
+2026-10-13T22:57:14.354Z,B,Single-SPA,plp,broadband,1,http://localhost:3100/products,94,497,973,8,0.1458,668,583,58,18,9,87,252,1196.2,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,16.6
+2026-10-13T22:57:30.505Z,C,Next.js RSC,plp,broadband,1,http://localhost:3200/products,100,286,743,88,0,682,579,138,15,8,111.3,362.6,1224.4,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,16.2
+2026-10-13T22:57:46.553Z,A,Module Federation,pdp,broadband,1,http://localhost:3000/product/1,100,495,949,0,0,495,536,28,17,12,112.4,315.1,385.8,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,16.0
+2026-10-13T22:58:02.359Z,B,Single-SPA,pdp,broadband,1,http://localhost:3100/product/1,99,517,739,0,0.0652,517,394,33,14,9,86.5,250.7,360.3,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,15.8
+2026-10-13T22:58:18.189Z,C,Next.js RSC,pdp,broadband,1,http://localhost:3200/product/1,98,186,581,85,0.081,464,365,135,12,8,111.3,362,390.1,Fjallraven - Foldsack No. 1 Backpack  Fits 15 Laptops,,0,15.8
+2026-10-13T22:58:33.559Z,A,Module Federation,cart,broadband,1,http://localhost:3000/cart,100,481,481,0,0,481,301,17,15,12,112.4,315,117.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,15.4
+2026-10-13T22:58:48.948Z,B,Single-SPA,cart,broadband,1,http://localhost:3100/cart,100,521,521,0,0,521,202,16,12,9,86.3,250.3,91.6,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,15.4
+2026-10-13T22:59:04.261Z,C,Next.js RSC,cart,broadband,1,http://localhost:3200/cart,100,206,206,73,0,368,321,123,12,9,112.6,363,121.2,© 2026 ShopMFE  a dissertation benchmark app. Data from Fake,,0,15.3
