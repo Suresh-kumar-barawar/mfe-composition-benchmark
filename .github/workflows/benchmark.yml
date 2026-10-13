@@ -1,0 +1,124 @@
+# Automated Lighthouse benchmark on a GitHub-hosted runner (free for public repositories).
+#
+# target = local     build A, B and C on the runner and measure them on localhost
+#                    (identical machine and server conditions for all three)
+# target = deployed  measure the deployed sites given in a_url / b_url / c_url
+#
+# Results: uploaded as an artifact AND committed to the branch "bench-results/<label>"
+# (bench/results/<label>/: results.csv, summary.csv/json, charts/, meta.json; raw Lighthouse
+# JSON only in the artifact).
+#
+# Start it from the Actions tab ("Run workflow") or:
+#   gh workflow run benchmark.yml -f target=local -f runs=5 -f label=final-local
+name: Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "local (build on runner) or deployed (use the URLs below)"
+        type: choice
+        options: [local, deployed]
+        default: local
+      runs:
+        description: "Runs per configuration (5 = full 180-run protocol for A,B,C)"
+        default: "5"
+      impl:
+        description: "Implementations"
+        default: "A,B,C"
+      network:
+        description: "Network profiles"
+        default: "slow-3g,fast-4g,broadband"
+      pages:
+        description: "Pages"
+        default: "home,plp,pdp,cart"
+      warmup:
+        description: "Plain warm-up requests per URL before each audit (use 1 for deployed)"
+        default: "0"
+      a_url:
+        description: "A base URL (deployed only)"
+        default: ""
+      b_url:
+        description: "B base URL (deployed only)"
+        default: ""
+      c_url:
+        description: "C base URL (deployed only)"
+        default: ""
+      label:
+        description: "Name of the results folder / branch"
+        default: "run"
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+      OUT: bench/results/${{ inputs.label }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build and start A, B and C on the runner
+        if: inputs.target == 'local'
+        run: |
+          npm ci
+          npm run a:build
+          npm run b:build
+          npm run c:build
+          bash tools/start-all.sh
+
+      - name: Functional check before measuring
+        working-directory: tests
+        env:
+          A_URL: ${{ inputs.target == 'deployed' && inputs.a_url || 'http://localhost:3000' }}
+          B_URL: ${{ inputs.target == 'deployed' && inputs.b_url || 'http://localhost:3100' }}
+          C_URL: ${{ inputs.target == 'deployed' && inputs.c_url || 'http://localhost:3200' }}
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          node functional.mjs --impl "${{ inputs.impl }}"
+
+      - name: Run Lighthouse benchmark
+        working-directory: bench
+        env:
+          A_URL: ${{ inputs.target == 'deployed' && inputs.a_url || 'http://localhost:3000' }}
+          B_URL: ${{ inputs.target == 'deployed' && inputs.b_url || 'http://localhost:3100' }}
+          C_URL: ${{ inputs.target == 'deployed' && inputs.c_url || 'http://localhost:3200' }}
+        run: |
+          npm ci
+          node run.mjs --runs "${{ inputs.runs }}" --impl "${{ inputs.impl }}" \
+            --network "${{ inputs.network }}" --pages "${{ inputs.pages }}" \
+            --warmup "${{ inputs.warmup }}" --out "results/${{ inputs.label }}"
+
+      - name: Analyse (medians, IQR, charts)
+        run: |
+          pip install --quiet matplotlib
+          python3 bench/analyze.py "$OUT"
+          echo "target=${{ inputs.target }}" > "$OUT/target.txt"
+          nproc >> "$OUT/target.txt"; lscpu | grep 'Model name' >> "$OUT/target.txt" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-${{ inputs.label }}
+          path: ${{ env.OUT }}
+
+      - name: Commit results to branch bench-results/${{ inputs.label }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "bench-results/${{ inputs.label }}"
+          git add -f "$OUT/results.csv" "$OUT/summary.csv" "$OUT/summary.json" "$OUT/meta.json" "$OUT/target.txt" "$OUT/charts"
+          git commit -m "Benchmark results: ${{ inputs.label }} (${{ inputs.target }}, ${{ inputs.runs }} run(s))"
+          git push origin "bench-results/${{ inputs.label }}"
+
+      - name: Server logs
+        if: always() && inputs.target == 'local'
+        run: tail -n 30 logs/*.log

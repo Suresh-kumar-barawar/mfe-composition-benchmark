@@ -1,0 +1,45 @@
+# Build all three implementations, run the 14-behaviour functional check and one quick
+# Lighthouse sanity run per implementation. Runs on every push and can be started by hand.
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build A – Module Federation
+        run: npm run a:build
+      - name: Build B – Single-SPA
+        run: npm run b:build
+      - name: Build C – Next.js RSC
+        run: npm run c:build
+      - name: Start all servers
+        run: bash tools/start-all.sh
+      - name: Functional check (A, B, C)
+        working-directory: tests
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          node functional.mjs
+      - name: Lighthouse sanity run (Home, Fast 4G, A/B/C)
+        working-directory: bench
+        run: |
+          npm ci
+          node run.mjs --runs 1 --impl A,B,C --network fast-4g --pages home --out results/ci
+          cat results/ci/results.csv
+          ! grep -q EXCEPTION results/ci/results.csv
+      - name: Server logs
+        if: always()
+        run: tail -n 30 logs/*.log

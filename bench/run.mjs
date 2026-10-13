@@ -13,6 +13,8 @@
  * Usage (apps must already be running, e.g. `npm run a:start` and `npm run b:start`):
  *   npm run bench -- --runs 5 --impl A,B --network slow-3g,fast-4g,broadband
  *   CHROME_PATH=/path/to/chrome npm run bench
+ *   npm run bench -- --warmup 1     # one plain request per URL before each audit (cloud runs:
+ *                                   # wakes serverless functions / fills the CDN; browser cache stays cold)
  *
  * Output: bench/results/<timestamp>/results.csv, meta.json, raw/*.json.gz
  */
@@ -67,6 +69,7 @@ const RUNS = Number(arg('runs', 3));
 const IMPLS = arg('impl', 'A,B').split(',');
 const NETS = arg('network', Object.keys(NETWORKS).join(',')).split(',');
 const PAGE_KEYS = arg('pages', Object.keys(PAGES).join(',')).split(',');
+const WARMUP = Number(arg('warmup', 0));
 const OUT = arg('out', path.join(__dirname, 'results', new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)));
 
 // ---------------------------------------------------------------- helpers
@@ -117,7 +120,18 @@ const CSV_COLUMNS = [
 ];
 const toCsv = (row) => CSV_COLUMNS.map((c) => (row[c] === undefined ? '' : String(row[c]).includes(',') ? `"${row[c]}"` : row[c])).join(',');
 
+async function warmup(url) {
+  for (let i = 0; i < WARMUP; i++) {
+    try {
+      await fetch(url, { headers: { 'Cache-Control': 'no-cache' } }).then((r) => r.arrayBuffer());
+    } catch {
+      /* the audit itself will report the error */
+    }
+  }
+}
+
 async function audit(url, net) {
+  await warmup(url);
   const chrome = await chromeLauncher.launch({
     chromePath: process.env.CHROME_PATH || undefined,
     chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu', '--no-first-run', '--disable-extensions'],
@@ -187,7 +201,7 @@ async function main() {
 
   fs.writeFileSync(
     path.join(OUT, 'meta.json'),
-    JSON.stringify({ ...meta, runs: RUNS, implementations: IMPLS, networks: NETS, pages: PAGE_KEYS, networkProfiles: NETWORKS, finishedAt: new Date().toISOString(), durationMin: ((Date.now() - started) / 60000).toFixed(1) }, null, 2)
+    JSON.stringify({ ...meta, runs: RUNS, warmup: WARMUP, urls: Object.fromEntries(IMPLS.map((i) => [i, IMPLEMENTATIONS[i].baseUrl])), implementations: IMPLS, networks: NETS, pages: PAGE_KEYS, networkProfiles: NETWORKS, finishedAt: new Date().toISOString(), durationMin: ((Date.now() - started) / 60000).toFixed(1) }, null, 2)
   );
   console.log(`\nDone: ${csvPath}`);
 }
