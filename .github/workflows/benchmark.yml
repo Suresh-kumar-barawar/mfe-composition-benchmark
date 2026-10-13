@@ -83,7 +83,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-          node functional.mjs --impl "${{ inputs.impl }}"
+          FT_TIMEOUT=20000 node functional.mjs --impl "${{ inputs.impl }}"
 
       - name: Run Lighthouse benchmark
         working-directory: bench

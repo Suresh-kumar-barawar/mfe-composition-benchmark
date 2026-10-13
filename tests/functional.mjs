@@ -17,7 +17,7 @@ const URLS = {
 };
 const i = process.argv.indexOf('--impl');
 const IMPLS = (i > -1 ? process.argv[i + 1] : 'A,B,C').split(',');
-const T = 60000;
+const T = Number(process.env.FT_TIMEOUT || 60000); // per action / wait
 
 const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {});
 let failures = 0;
@@ -159,6 +159,11 @@ for (const impl of IMPLS) {
   console.log(`\n${impl} (${base}): ${passed}/${results.length} passed`);
   for (const [name, ok, msg] of results) console.log(`  ${ok ? 'PASS' : 'FAIL'}  ${name}${ok ? '' : `  -> ${msg}`}`);
   failures += results.length - passed;
+  if (process.env.GITHUB_ACTIONS) {
+    // Annotations are visible through the GitHub API even when the raw logs are not.
+    const failed = results.filter((r) => !r[1]).map((r) => `${r[0]}: ${r[2]}`).join(' || ');
+    console.log(`::${failed ? 'error' : 'notice'} title=Functional ${impl}::${passed}/${results.length} passed${failed ? ' – ' + failed.slice(0, 900) : ''}`);
+  }
   await page.close();
 }
 

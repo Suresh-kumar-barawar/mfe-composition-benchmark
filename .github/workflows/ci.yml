@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       NEXT_TELEMETRY_DISABLED: 1
     steps:
@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Check FakeStore API from the runner
+        run: |
+          for path in /products/1 /products/categories; do
+            code=$(curl -s -o /tmp/fs.json -w "%{http_code}" -m 20 "https://fakestoreapi.com$path" || echo 000)
+            echo "::notice title=FakeStore $path::HTTP $code, $(head -c 120 /tmp/fs.json | tr -d '\n')"
+          done
       - run: npm ci
       - name: Build A – Module Federation
         run: npm run a:build
@@ -32,13 +38,16 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-          node functional.mjs
+          FT_TIMEOUT=20000 node functional.mjs
       - name: Lighthouse sanity run (Home, Fast 4G, A/B/C)
         working-directory: bench
         run: |
           npm ci
           node run.mjs --runs 1 --impl A,B,C --network fast-4g --pages home --out results/ci
           cat results/ci/results.csv
+          while IFS=, read -r ts impl strategy page network run url score fcp lcp tbt cls rest; do
+            [ "$impl" = impl ] || echo "::notice title=Lighthouse $impl $page $network::score $score FCP $fcp ms LCP $lcp ms TBT $tbt ms CLS $cls"
+          done < results/ci/results.csv
           ! grep -q EXCEPTION results/ci/results.csv
       - name: Server logs
         if: always()
