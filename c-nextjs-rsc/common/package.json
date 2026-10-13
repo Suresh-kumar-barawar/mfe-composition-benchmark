@@ -1,0 +1,14 @@
+{
+  "name": "c-common",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Implementation C – small adapters shared by the C micro frontends (Next.js link adapter, fetch policy, failure switch for the error-isolation test).",
+  "exports": {
+    ".": "./src/index.js",
+    "./Link": "./src/Link.jsx"
+  },
+  "peerDependencies": {
+    "next": "^15.5.0",
+    "react": "~19.2.8"
+  }
+}

@@ -10,3 +10,4 @@ reports/raw/
 b-single-spa/root-config/public/
 bench/node_modules/
 bench/results/*/raw/
+tests/node_modules/
