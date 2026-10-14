@@ -6,10 +6,12 @@
   "description": "Automated Lighthouse benchmark: implementations x pages x network profiles x runs.",
   "scripts": {
     "bench": "node run.mjs",
-    "analyze": "python3 analyze.py"
+    "analyze": "python3 analyze.py",
+    "inp": "node inp.mjs"
   },
   "dependencies": {
     "chrome-launcher": "^1.1.2",
-    "lighthouse": "^12.2.1"
+    "lighthouse": "^12.2.1",
+    "playwright": "1.56.0"
   }
 }
