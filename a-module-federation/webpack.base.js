@@ -9,7 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { ModuleFederationPlugin } = webpack.container;
 
-const API_URL = process.env.API_URL || 'https://fakestoreapi.com';
+const API_URL = process.env.API_URL || 'http://localhost:3300'; // catalog-api/ (npm run api:start)
 
 module.exports = function createConfig({ dirname, name, port, exposes = {}, remotes = {}, isShell = false }) {
   const deps = require(path.join(dirname, 'package.json')).dependencies;

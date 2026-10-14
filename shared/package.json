@@ -11,6 +11,6 @@
     "./react": "./src/react/index.js"
   },
   "peerDependencies": {
-    "react": "^18.3.0"
+    "react": "~19.2.8"
   }
 }

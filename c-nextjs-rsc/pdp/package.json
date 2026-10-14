@@ -1,0 +1,16 @@
+{
+  "name": "c-pdp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Implementation C – pdp micro frontend: a React Server Component package composed by the Next.js host.",
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js" },
+  "dependencies": {
+    "@mfe/shared": "*"
+  },
+  "peerDependencies": {
+    "next": "^15.5.0",
+    "react": "~19.2.8",
+    "react-dom": "~19.2.8"
+  }
+}

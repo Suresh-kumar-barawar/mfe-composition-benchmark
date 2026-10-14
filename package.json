@@ -6,8 +6,10 @@
   "workspaces": [
     "tools",
     "shared",
+    "catalog-api",
     "a-module-federation/*",
-    "b-single-spa/*"
+    "b-single-spa/*",
+    "c-nextjs-rsc/*"
   ],
   "scripts": {
     "a:dev": "concurrently -n shell,home,plp,pdp,cart \"npm run dev -w a-shell\" \"npm run dev -w a-home\" \"npm run dev -w a-plp\" \"npm run dev -w a-pdp\" \"npm run dev -w a-cart\"",
@@ -18,8 +20,12 @@
     "b:build": "npm run build -w b-navbar -w b-home -w b-plp -w b-pdp -w b-cart -w b-root-config",
     "b:start": "concurrently -n root,navbar,home,plp,pdp,cart \"npm run serve -w b-root-config\" \"npm run serve -w b-navbar\" \"npm run serve -w b-home\" \"npm run serve -w b-plp\" \"npm run serve -w b-pdp\" \"npm run serve -w b-cart\"",
     "b:analyze": "ANALYZE=1 npm run b:build",
+    "c:dev": "npm run dev -w c-host",
+    "c:build": "npm run build -w c-host",
+    "c:start": "npm run start -w c-host",
     "bench": "npm --prefix bench run bench --",
-    "bench:analyze": "python3 bench/analyze.py"
+    "bench:analyze": "python3 bench/analyze.py",
+    "api:start": "npm run start -w catalog-api"
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",

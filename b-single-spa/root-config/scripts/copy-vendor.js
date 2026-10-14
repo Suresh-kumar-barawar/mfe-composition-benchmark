@@ -1,6 +1,7 @@
 /**
- * Copies the shared runtime libraries (React, ReactDOM, single-spa, SystemJS) into the
+ * Copies the shared runtime libraries (single-spa, SystemJS) into the
  * root-config output so they are self-hosted on the same server, not a public CDN.
+ * React and ReactDOM are built separately by webpack.vendor.js (React 19 has no UMD files).
  *   node scripts/copy-vendor.js <outDir>
  */
 const fs = require('fs');
@@ -17,8 +18,6 @@ function pkgDir(name) {
 }
 
 const files = {
-  'react.production.min.js': ['react', 'umd/react.production.min.js'],
-  'react-dom.production.min.js': ['react-dom', 'umd/react-dom.production.min.js'],
   'single-spa.min.js': ['single-spa', 'lib/es2015/system/single-spa.min.js'],
   'system.min.js': ['systemjs', 'dist/system.min.js'],
   'amd.min.js': ['systemjs', 'dist/extras/amd.min.js'],

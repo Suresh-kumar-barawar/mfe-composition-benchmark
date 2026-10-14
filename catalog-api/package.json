@@ -1,0 +1,14 @@
+{
+  "name": "catalog-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ShopMFE catalogue API: self-hosted copy of the FakeStore API data (20 products, 4 categories) and product images, served on the same routes. Used by all three implementations.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "express": "^4.21.0"
+  }
+}
