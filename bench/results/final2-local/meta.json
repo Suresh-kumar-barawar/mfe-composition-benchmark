@@ -1,0 +1,115 @@
+{
+  "lighthouseVersion": "12.8.2",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+  "benchmarkIndex": 2435.5,
+  "settings": {
+    "output": "json",
+    "maxWaitForFcp": 60000,
+    "maxWaitForLoad": 120000,
+    "pauseAfterFcpMs": 5250,
+    "pauseAfterLoadMs": 5250,
+    "networkQuietThresholdMs": 5250,
+    "cpuQuietThresholdMs": 5250,
+    "formFactor": "mobile",
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 400,
+      "downloadThroughputKbps": 400,
+      "uploadThroughputKbps": 400,
+      "cpuSlowdownMultiplier": 4
+    },
+    "throttlingMethod": "devtools",
+    "screenEmulation": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "emulatedUserAgent": "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36",
+    "auditMode": false,
+    "gatherMode": false,
+    "clearStorageTypes": [
+      "file_systems",
+      "shader_cache",
+      "service_workers",
+      "cache_storage"
+    ],
+    "disableStorageReset": false,
+    "debugNavigation": false,
+    "channel": "node",
+    "usePassiveGathering": false,
+    "disableFullPageScreenshot": false,
+    "skipAboutBlank": false,
+    "blankPage": "about:blank",
+    "ignoreStatusCode": false,
+    "locale": "en-US",
+    "blockedUrlPatterns": null,
+    "additionalTraceCategories": null,
+    "extraHeaders": null,
+    "precomputedLanternData": null,
+    "onlyAudits": null,
+    "onlyCategories": [
+      "performance"
+    ],
+    "skipAudits": null
+  },
+  "chromeFlags": [
+    "--headless=new",
+    "--no-sandbox",
+    "--disable-gpu",
+    "--no-first-run",
+    "--disable-extensions",
+    "--hide-scrollbars",
+    "--disable-renderer-backgrounding",
+    "--disable-backgrounding-occluded-windows",
+    "--disable-background-timer-throttling",
+    "--enable-features=CDPScreenshotNewSurface"
+  ],
+  "runs": 5,
+  "warmup": 0,
+  "urls": {
+    "A": "http://localhost:3000",
+    "B": "http://localhost:3100",
+    "C": "http://localhost:3200"
+  },
+  "implementations": [
+    "A",
+    "B",
+    "C"
+  ],
+  "networks": [
+    "slow-3g",
+    "fast-4g",
+    "broadband"
+  ],
+  "pages": [
+    "home",
+    "plp",
+    "pdp",
+    "cart"
+  ],
+  "networkProfiles": {
+    "slow-3g": {
+      "requestLatencyMs": 400,
+      "downloadThroughputKbps": 400,
+      "uploadThroughputKbps": 400,
+      "cpuSlowdownMultiplier": 4
+    },
+    "fast-4g": {
+      "requestLatencyMs": 170,
+      "downloadThroughputKbps": 9000,
+      "uploadThroughputKbps": 1500,
+      "cpuSlowdownMultiplier": 4
+    },
+    "broadband": {
+      "requestLatencyMs": 20,
+      "downloadThroughputKbps": 40000,
+      "uploadThroughputKbps": 10000,
+      "cpuSlowdownMultiplier": 4
+    }
+  },
+  "finishedAt": "2026-10-14T21:33:05.747Z",
+  "durationMin": "69.2"
+}
