@@ -33,8 +33,16 @@ app.use((req, res, next) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
-  // On Vercel the function may receive the path with an /api prefix.
-  if (req.url.startsWith('/api/')) req.url = req.url.slice(4);
+  // On Vercel every API route is rewritten to /api?__p=<original path> (see vercel.json):
+  // restore the original path and query before routing.
+  if (req.url === '/api' || req.url.startsWith('/api?') || req.url.startsWith('/api/')) {
+    const u = new URL(req.url, 'http://local');
+    const original = u.searchParams.get('__p');
+    u.searchParams.delete('__p');
+    const qs = u.searchParams.toString();
+    req.url = (original ? encodeURI(original) : u.pathname.replace(/^\/api/, '') || '/') + (qs ? `?${qs}` : '');
+    req.query = Object.fromEntries(u.searchParams);
+  }
   next();
 });
 app.use('/img', express.static(path.join(__dirname, 'public', 'img'), { maxAge: '4h' })); // same as FakeStore: max-age=14400

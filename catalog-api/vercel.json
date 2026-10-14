@@ -21,15 +21,15 @@
   "rewrites": [
     {
       "source": "/products",
-      "destination": "/api/products"
+      "destination": "/api?__p=/products"
     },
     {
       "source": "/products/:path*",
-      "destination": "/api/products/:path*"
+      "destination": "/api?__p=/products/:path*"
     },
     {
       "source": "/carts",
-      "destination": "/api/carts"
+      "destination": "/api?__p=/carts"
     }
   ]
 }
