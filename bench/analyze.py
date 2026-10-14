@@ -120,10 +120,12 @@ def grouped(metric, ylabel, title, fname, scale=1.0, fmt="{:.0f}"):
     plt.close(fig)
 
 
-grouped("lcp_ms", "LCP (s)", "Largest Contentful Paint (single run)", "lcp.png", scale=1 / 1000)
-grouped("fcp_ms", "FCP (s)", "First Contentful Paint (single run)", "fcp.png", scale=1 / 1000)
-grouped("tti_ms", "TTI (s)", "Time to Interactive (single run)", "tti.png", scale=1 / 1000)
-grouped("tbt_ms", "TBT (ms)", "Total Blocking Time (single run)", "tbt.png")
+NRUNS = max(s["n"] for s in summary)
+RUNLABEL = "single run" if NRUNS == 1 else f"median of {NRUNS} runs, bars = min-max"
+grouped("lcp_ms", "LCP (s)", f"Largest Contentful Paint ({RUNLABEL})", "lcp.png", scale=1 / 1000)
+grouped("fcp_ms", "FCP (s)", f"First Contentful Paint ({RUNLABEL})", "fcp.png", scale=1 / 1000)
+grouped("tti_ms", "TTI (s)", f"Time to Interactive ({RUNLABEL})", "tti.png", scale=1 / 1000)
+grouped("tbt_ms", "TBT (ms)", f"Total Blocking Time ({RUNLABEL})", "tbt.png")
 
 # JavaScript transferred per page (network-independent; broadband runs)
 fig, ax = plt.subplots(figsize=(5.2, 2.6))
