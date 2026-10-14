@@ -102,6 +102,12 @@ jobs:
             --network "${{ inputs.network }}" --pages "${{ inputs.pages }}" \
             --warmup "${{ inputs.warmup }}" --out "results/${{ inputs.label }}"
 
+      - name: Interaction benchmark (INP, 10-step session, Fast 4G + 4x CPU)
+        working-directory: bench
+        run: |
+          node inp.mjs --runs "${{ inputs.runs }}" --impl "${{ inputs.impl }}" --out "results/${{ inputs.label }}"
+          node -e "const s=require('./results/${{ inputs.label }}/inp-summary.json');console.log('::notice title=INP (session, median)::'+JSON.stringify(s.sessionInp)+' errors '+s.errors)"
+
       - name: Analyse (medians, IQR, charts)
         run: |
           pip install --quiet matplotlib
@@ -120,7 +126,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "bench-results/${{ inputs.label }}"
-          git add -f "$OUT/results.csv" "$OUT/summary.csv" "$OUT/summary.json" "$OUT/meta.json" "$OUT/target.txt" "$OUT/charts"
+          git add -f "$OUT/inp.csv" "$OUT/inp-summary.json" "$OUT/results.csv" "$OUT/summary.csv" "$OUT/summary.json" "$OUT/meta.json" "$OUT/target.txt" "$OUT/charts"
           git commit -m "Benchmark results: ${{ inputs.label }} (${{ inputs.target }}, ${{ inputs.runs }} run(s))"
           git push origin "bench-results/${{ inputs.label }}"
 

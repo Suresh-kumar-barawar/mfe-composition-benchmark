@@ -150,7 +150,12 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
 
 @media (max-width: 800px) {
   .nav { display: none; }
-  .header__inner { gap: 12px; }
+  /* Phones: two rows (logo + cart, then a full-width search box) so the cart link stays on
+     screen. Fixed height, so the header slot reserved by Single-SPA still matches (no shift). */
+  .header { height: 112px; }
+  .header__inner { gap: 8px 12px; height: 112px; flex-wrap: wrap; align-content: center; }
+  .header__search { order: 3; flex: 1 1 100%; max-width: none; margin-left: 0; }
+  .header__cart { margin-left: auto; }
   .pdp, .cart { grid-template-columns: 1fr; }
   .cart__item { grid-template-columns: 64px 1fr; }
   .cart__item .qty, .cart__line { grid-column: 2; justify-self: start; }
@@ -158,4 +163,5 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
 
 /* Slots used by runtime composition (Single-SPA): reserve space so late-mounting apps do not shift layout. */
 .mfe-header-slot { min-height: 64px; }
+@media (max-width: 800px) { .mfe-header-slot { min-height: 112px; } }
 .mfe-main { min-height: 60vh; }

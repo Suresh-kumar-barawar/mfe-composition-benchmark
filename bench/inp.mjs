@@ -6,7 +6,8 @@
  * (client-side) navigation, like a real visitor, under the benchmark's throttling
  * (Fast 4G network, 4x CPU slowdown, mobile screen), and records for every step:
  *
- *   inp_ms     the longest Event Timing duration of the interaction(s) in that step: time from
+ *   inp_ms     (0 = under 16 ms, the smallest duration browsers report)
+ *              the longest Event Timing duration of the interaction(s) in that step: time from
  *              the user's input until the browser paints the next frame (what INP is built from)
  *   result_ms  time from the input until the expected result is visible on screen
  *              (e.g. the filtered product grid) – includes any data fetching / server rendering
@@ -129,10 +130,11 @@ async function session(browser, impl, run) {
     const to = i + 1 < marks.length ? marks[i + 1][1] : Infinity;
     const mine = interactions.filter((x) => x.start >= from - 1 && x.start < to);
     const worst = mine.reduce((a, b) => (b.duration > (a?.duration ?? -1) ? b : a), null);
-    r.inp_ms = worst ? Math.round(worst.duration) : '';
-    r.input_delay_ms = worst ? Math.round(worst.delay) : '';
-    r.processing_ms = worst ? Math.round(worst.processing) : '';
-    r.event = worst ? worst.name : '';
+    // The browser only reports interactions of 16 ms or more; none reported = under 16 ms (stored as 0).
+    r.inp_ms = worst ? Math.round(worst.duration) : 0;
+    r.input_delay_ms = worst ? Math.round(worst.delay) : 0;
+    r.processing_ms = worst ? Math.round(worst.processing) : 0;
+    r.event = worst ? worst.name : 'below-16ms';
     r.interactions = mine.length;
   });
   const sessionInp = Math.max(0, ...interactions.map((x) => x.duration));
@@ -173,7 +175,7 @@ for (const impl of IMPLS) {
     const r = rows.filter((x) => x.impl === impl && x.step === step && !x.error);
     summary.steps[step] ??= {};
     summary.steps[step][impl] = {
-      inp_ms: median(r.filter((x) => x.inp_ms !== '').map((x) => +x.inp_ms)),
+      inp_ms: median(r.map((x) => +x.inp_ms)),
       result_ms: median(r.map((x) => +x.result_ms)),
       ok: r.length,
     };
