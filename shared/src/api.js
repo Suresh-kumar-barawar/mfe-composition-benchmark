@@ -1,11 +1,12 @@
-// FakeStore API client (https://fakestoreapi.com), shared by all implementations.
+// Catalogue API client, shared by all implementations. The API (catalog-api/) serves a
+// self-hosted copy of the FakeStore API data on FakeStore's routes.
 // Works in the browser and on the server (Node 18+ fetch).
 // Bundlers replace process.env.API_URL at build time; Next.js reads it on the server.
-export const API_URL = process.env.API_URL || 'https://fakestoreapi.com';
+export const API_URL = process.env.API_URL || 'http://localhost:3300';
 
 async function get(path, init) {
   const res = await fetch(`${API_URL}${path}`, init);
-  if (!res.ok) throw new Error(`FakeStore API ${res.status} for ${path}`);
+  if (!res.ok) throw new Error(`Catalogue API ${res.status} for ${path}`);
   return res.json();
 }
 

@@ -2,8 +2,7 @@
 # Starts the production builds of A, B and C in the background and waits until every
 # server answers. Used by the GitHub Actions workflows (and handy locally).
 #   bash tools/start-all.sh            # after npm run a:build && npm run b:build && npm run c:build
-# Also starts the FakeStore mock API on :3300 (used when the apps were built with
-# API_URL=http://localhost:3300).
+# Also starts the catalogue API (catalog-api/) on :3300, the data source of all three apps.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 mkdir -p logs
@@ -26,4 +25,4 @@ for url in http://localhost:3300/products http://localhost:3000/ http://localhos
            http://localhost:3200/; do
   wait_for "$url"
 done
-echo "Mock API (3300), A (3000-3004), B (3100-3105) and C (3200) are up."
+echo "Catalogue API (3300), A (3000-3004), B (3100-3105) and C (3200) are up."

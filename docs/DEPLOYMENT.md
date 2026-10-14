@@ -6,20 +6,18 @@ and needs no credit card.
 
 | Vercel project | Implementation | Root Directory | Framework preset | Build Command |
 |---|---|---|---|---|
-| `mfe-mock-api` | FakeStore mock API (data + images) | `mock-api` | Other | from `mock-api/vercel.json` |
+| `mfe-catalog-api` | Catalogue API (FakeStore data + images) | `catalog-api` | Other | from `catalog-api/vercel.json` |
 | `mfe-a-module-federation` | A – Module Federation | `./` (repo root) | Other | `node tools/vercel-build.mjs a` |
 | `mfe-b-single-spa` | B – Single-SPA | `./` (repo root) | Other | `node tools/vercel-build.mjs b` |
 | `mfe-c-nextjs-rsc` | C – Next.js RSC | `c-nextjs-rsc/host` | Next.js | from `c-nextjs-rsc/host/vercel.json` |
 
-## Why a mock API
+## Data: our catalogue API
 
-The live `fakestoreapi.com` sits behind a bot check: from GitHub's runners (and very likely
-from other data-centre machines such as Vercel's servers) it answers **HTTP 403 "Just a
-moment…"**. The benchmark browser runs on a GitHub runner and C fetches data on Vercel's
-servers, so the deployed apps use our own copy, `mock-api/`: a fixed snapshot of FakeStore's
-20 products on the same routes, with synthetic product images of the same pixel and byte
-size (the original photos are not ours to republish). Each of A, B and C gets the setting
-`API_URL=https://mfe-mock-api.vercel.app` (your actual mock URL), read at build time.
+All three apps read products from `catalog-api/`, our self-hosted copy of the FakeStore API
+data and images (same routes, same JSON). The public `fakestoreapi.com` cannot be used in the
+cloud: it answers data-centre machines (GitHub's runners, and very likely Vercel's servers that
+render C) with **HTTP 403 "Just a moment…"**. Each of A, B and C gets the setting
+`API_URL=https://mfe-catalog-api.vercel.app` (your actual URL), read at build time.
 
 ## How each implementation is hosted
 
@@ -44,12 +42,12 @@ is the `local` benchmark (see below); the Vercel numbers show real-world behavio
 2. **Create the account:** go to vercel.com → *Sign Up* → *Hobby* → *Continue with GitHub*
    with the account **Suresh-kumar-barawar**. Allow the Vercel GitHub app to access
    `mfe-composition-benchmark`.
-3. **Mock API first:** *Add New… → Project* → import `mfe-composition-benchmark`.
-   - Project Name: `mfe-mock-api`
-   - Root Directory: **`mock-api`**, Framework Preset: **Other**
-   - Leave the other settings (`mock-api/vercel.json` sets them) → *Deploy*.
-   - Check `https://mfe-mock-api.vercel.app/products` shows 20 products and
-     `https://mfe-mock-api.vercel.app/products/1` one product. Note the URL.
+3. **Catalogue API first:** *Add New… → Project* → import `mfe-composition-benchmark`.
+   - Project Name: `mfe-catalog-api`
+   - Root Directory: **`catalog-api`**, Framework Preset: **Other**
+   - Leave the other settings (`catalog-api/vercel.json` sets them) → *Deploy*.
+   - Check `https://mfe-catalog-api.vercel.app/products` shows 20 products and
+     `https://mfe-catalog-api.vercel.app/products/1` one product. Note the URL.
 4. **Project A:** *Add New… → Project* → import `mfe-composition-benchmark`.
    - Project Name: `mfe-a-module-federation`
    - Framework Preset: **Other**
@@ -57,7 +55,7 @@ is the `local` benchmark (see below); the Vercel numbers show real-world behavio
    - Build Command (Override): `node tools/vercel-build.mjs a`
    - Install Command (Override): `npm ci`
    - Output Directory: leave empty (the build writes `.vercel/output` itself)
-   - Environment Variables: `API_URL` = the mock URL from step 3 (no trailing slash)
+   - Environment Variables: `API_URL` = the catalogue API URL from step 3 (no trailing slash)
    - *Deploy*.
 5. **Project B:** same as A, with name `mfe-b-single-spa`, Build Command
    `node tools/vercel-build.mjs b` and the same `API_URL`.
@@ -90,8 +88,6 @@ deployed sites runs on a **GitHub Actions** runner (free for public repositories
 - A and B are same-origin on Vercel (`/mfe/<name>/`); locally every MFE has its own port.
 - Vercel serves with HTTP/2 and Brotli; locally Express serves HTTP/1.1 with gzip.
 - C runs on a serverless function (possible cold start → use `warmup = 1`).
-- The GitHub runner, Vercel's `iad1` region and the mock API are all on the public internet;
+- The GitHub runner, Vercel's `iad1` region and the catalogue API are all on the public internet;
   their distance adds latency on top of the throttling profiles.
 - If `API_URL` is changed, A, B and C must be redeployed (it is built into the bundles).
-- For a demo with the real product photos, a project can instead use the live FakeStore API
-  (leave `API_URL` unset) — but not for benchmarks run from GitHub.

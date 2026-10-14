@@ -2,8 +2,7 @@
 #
 # target = local     build A, B and C on the runner and measure them on localhost
 #                    (identical machine and server conditions for all three). Data come from
-#                    the self-hosted FakeStore mock (mock-api/, :3300) – the live API blocks
-#                    GitHub's runners – unless api_url is set.
+#                    our catalogue API (catalog-api/, :3300) on the runner unless api_url is set.
 # target = deployed  measure the deployed sites given in a_url / b_url / c_url
 #
 # Results: uploaded as an artifact AND committed to the branch "bench-results/<label>"
@@ -40,7 +39,7 @@ on:
         description: "Plain warm-up requests per URL before each audit (use 1 for deployed)"
         default: "0"
       api_url:
-        description: "Data API for local builds (default: the mock on the runner, http://localhost:3300)"
+        description: "Catalogue API for local builds (default: catalog-api on the runner)"
         default: "http://localhost:3300"
       urls:
         description: "Deployed base URLs (deployed only), e.g. A=https://a.vercel.app,B=https://b.vercel.app,C=https://c.vercel.app"

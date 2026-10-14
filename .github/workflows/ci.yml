@@ -1,7 +1,6 @@
 # Build all three implementations, run the 14-behaviour functional check and one quick
 # Lighthouse sanity run per implementation. Runs on every push and can be started by hand.
-# The apps use the self-hosted FakeStore mock (mock-api/, port 3300): the live
-# fakestoreapi.com answers GitHub's runners with HTTP 403 (bot check).
+# Data come from our catalogue API (catalog-api/, port 3300, started by tools/start-all.sh).
 name: CI
 
 on:
@@ -21,12 +20,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Check FakeStore API from the runner
-        run: |
-          for path in /products/1 /products/categories; do
-            code=$(curl -s -o /tmp/fs.json -w "%{http_code}" -m 20 "https://fakestoreapi.com$path" || echo 000)
-            echo "::notice title=FakeStore $path::HTTP $code, $(head -c 120 /tmp/fs.json | tr -d '\n')"
-          done
       - run: npm ci
       - name: Build A – Module Federation
         run: npm run a:build

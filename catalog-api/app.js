@@ -1,19 +1,22 @@
 /**
- * FakeStore API mock (https://fakestoreapi.com), used instead of the live API when we need
- * controlled, repeatable benchmarks (the live API sits behind a bot check that blocks cloud
- * and CI machines, and its latency varies). Same routes and JSON shapes as FakeStore:
+ * ShopMFE catalogue API – the data source for all three implementations.
  *
- *   GET  /products                       all 20 products (snapshot taken 14 Oct 2026)
+ * Data and product images are a copy of the open-source FakeStore API
+ * (https://fakestoreapi.com, https://github.com/keikaavousi/fake-store-api), taken on
+ * 14 Oct 2026 and served by us on the same routes with the same JSON. We host it ourselves
+ * because the public fakestoreapi.com sits behind a bot check that blocks requests from cloud
+ * and CI machines (GitHub Actions, Vercel), and its response time varies between runs.
+ *
+ *   GET  /products                       all 20 products
  *   GET  /products/categories            the 4 categories
  *   GET  /products/:id                   one product (unknown id -> 200 with an empty body, like FakeStore)
  *   GET  /products/category/:category    products of one category
  *   POST /carts                          echoes the cart back with an id (like FakeStore)
- *   GET  /img/<file>.png                 synthetic product images: same file name, pixel size and
- *                                        byte size (+-0.5 %) as FakeStore's images
+ *   GET  /img/<file>.png                 product images (FakeStore's originals)
  *
  * Environment:
- *   MOCK_PUBLIC_URL  base URL written into product image links (default: the request's own origin)
- *   MOCK_DELAY_MS    optional artificial processing delay per API response (default 0)
+ *   PUBLIC_URL      base URL written into product image links (default: the request's own origin)
+ *   API_DELAY_MS    optional artificial processing delay per API response (default 0)
  */
 const path = require('path');
 const express = require('express');
@@ -22,7 +25,7 @@ const compression = require('compression');
 const products = require('./data/products.json');
 const categories = require('./data/categories.json');
 
-const DELAY = Number(process.env.MOCK_DELAY_MS || 0);
+const DELAY = Number(process.env.API_DELAY_MS || 0);
 const app = express();
 app.disable('x-powered-by');
 app.use(compression());
@@ -34,9 +37,9 @@ app.use((req, res, next) => {
   if (req.url.startsWith('/api/')) req.url = req.url.slice(4);
   next();
 });
-app.use('/img', express.static(path.join(__dirname, 'public', 'img'), { maxAge: '4h' })); // FakeStore: max-age=14400
+app.use('/img', express.static(path.join(__dirname, 'public', 'img'), { maxAge: '4h' })); // same as FakeStore: max-age=14400
 
-const base = (req) => (process.env.MOCK_PUBLIC_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
+const base = (req) => (process.env.PUBLIC_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '');
 const withBase = (req, p) => ({ ...p, image: p.image.replace('{{BASE}}', base(req)) });
 const send = (res, body) => setTimeout(() => (body === '' ? res.type('application/json').send('') : res.json(body)), DELAY);
 
@@ -56,6 +59,6 @@ app.get('/products/:id', (req, res) => {
   send(res, p ? withBase(req, p) : '');
 });
 app.post('/carts', express.json(), (req, res) => send(res, { id: 11, ...req.body }));
-app.get('/', (req, res) => res.type('text').send('FakeStore API mock – see /products'));
+app.get('/', (req, res) => res.type('text').send('ShopMFE catalogue API (data: FakeStore API) – see /products'));
 
 module.exports = app;
