@@ -4,6 +4,18 @@ All three implementations are deployed on **one platform** so that hosting diffe
 kept as small as possible. Vercel's Hobby plan is free for personal, non-commercial work
 and needs no credit card.
 
+**Live deployment (14 Oct 2026, account "Suresh Kumar's projects", Hobby):**
+
+| Part | URL |
+|---|---|
+| Catalogue API | https://mfe-composition-benchmark.vercel.app (Vercel project `mfe-composition-benchmark`) |
+| A – Module Federation | https://mfe-a-module-federation.vercel.app |
+| B – Single-SPA | https://mfe-b-single-spa.vercel.app |
+| C – Next.js RSC | https://mfe-c-nextjs-rsc.vercel.app |
+
+All four deploy automatically on every push to `main`. A, B and C have
+`API_URL=https://mfe-composition-benchmark.vercel.app`.
+
 | Vercel project | Implementation | Root Directory | Framework preset | Build Command |
 |---|---|---|---|---|
 | `mfe-catalog-api` | Catalogue API (FakeStore data + images) | `catalog-api` | Other | from `catalog-api/vercel.json` |
@@ -44,8 +56,11 @@ is the `local` benchmark (see below); the Vercel numbers show real-world behavio
    `mfe-composition-benchmark`.
 3. **Catalogue API first:** *Add New… → Project* → import `mfe-composition-benchmark`.
    - Project Name: `mfe-catalog-api`
-   - Root Directory: **`catalog-api`**, Framework Preset: **Other**
+   - Vercel's import screen detects several apps and suggests one "Services" project –
+     ignore that; use *Import single project* on the `catalog-api` row.
+   - Root Directory: **`catalog-api`**, Framework Preset: **Other** (not Express)
    - Leave the other settings (`catalog-api/vercel.json` sets them) → *Deploy*.
+   - (In our deployment this project kept the default name `mfe-composition-benchmark`.)
    - Check `https://mfe-catalog-api.vercel.app/products` shows 20 products and
      `https://mfe-catalog-api.vercel.app/products/1` one product. Note the URL.
 4. **Project A:** *Add New… → Project* → import `mfe-composition-benchmark`.
