@@ -1,0 +1,188 @@
+{
+  "network": "fast-4g",
+  "cpuSlowdown": 4,
+  "runs": 5,
+  "urls": {
+    "A": "http://localhost:3000",
+    "B": "http://localhost:3100",
+    "C": "http://localhost:3200"
+  },
+  "sessionInp": {
+    "A": 32,
+    "B": 24,
+    "C": 24
+  },
+  "steps": {
+    "home-carousel-next": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 451,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 442,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 452,
+        "ok": 5
+      }
+    },
+    "nav-to-shop": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 862,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 847,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 477,
+        "ok": 5
+      }
+    },
+    "filter-category": {
+      "A": {
+        "inp_ms": 32,
+        "result_ms": 265,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 24,
+        "result_ms": 258,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 560,
+        "ok": 5
+      }
+    },
+    "sort-price": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 74,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 71,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 536,
+        "ok": 5
+      }
+    },
+    "open-product": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 851,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 847,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 239,
+        "ok": 5
+      }
+    },
+    "qty-plus": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 38,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 33,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 43,
+        "ok": 5
+      }
+    },
+    "add-to-cart": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 39,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 39,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 40,
+        "ok": 5
+      }
+    },
+    "nav-to-cart": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 846,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 324,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 419,
+        "ok": 5
+      }
+    },
+    "cart-qty-plus": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 36,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 37,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 40,
+        "ok": 5
+      }
+    },
+    "search": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 512,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 523,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 510,
+        "ok": 5
+      }
+    }
+  },
+  "errors": 0
+}

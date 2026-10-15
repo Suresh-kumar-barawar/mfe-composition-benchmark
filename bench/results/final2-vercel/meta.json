@@ -1,7 +1,7 @@
 {
   "lighthouseVersion": "12.8.2",
-  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
-  "benchmarkIndex": 1001,
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+  "benchmarkIndex": 2422,
   "settings": {
     "output": "json",
     "maxWaitForFcp": 60000,
@@ -110,6 +110,6 @@
       "cpuSlowdownMultiplier": 4
     }
   },
-  "finishedAt": "2026-10-14T19:31:10.983Z",
-  "durationMin": "69.6"
+  "finishedAt": "2026-10-14T21:32:19.160Z",
+  "durationMin": "69.4"
 }

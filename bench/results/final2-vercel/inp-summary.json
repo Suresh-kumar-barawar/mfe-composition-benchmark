@@ -1,0 +1,188 @@
+{
+  "network": "fast-4g",
+  "cpuSlowdown": 4,
+  "runs": 5,
+  "urls": {
+    "A": "https://mfe-a-module-federation.vercel.app",
+    "B": "https://mfe-b-single-spa.vercel.app",
+    "C": "https://mfe-c-nextjs-rsc.vercel.app"
+  },
+  "sessionInp": {
+    "A": 32,
+    "B": 24,
+    "C": 24
+  },
+  "steps": {
+    "home-carousel-next": {
+      "A": {
+        "inp_ms": 0,
+        "result_ms": 454,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 445,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 0,
+        "result_ms": 455,
+        "ok": 5
+      }
+    },
+    "nav-to-shop": {
+      "A": {
+        "inp_ms": 32,
+        "result_ms": 875,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 861,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 24,
+        "result_ms": 480,
+        "ok": 5
+      }
+    },
+    "filter-category": {
+      "A": {
+        "inp_ms": 32,
+        "result_ms": 265,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 24,
+        "result_ms": 260,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 265,
+        "ok": 5
+      }
+    },
+    "sort-price": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 74,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 74,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 305,
+        "ok": 5
+      }
+    },
+    "open-product": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 855,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 846,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 255,
+        "ok": 5
+      }
+    },
+    "qty-plus": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 36,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 44,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 38,
+        "ok": 5
+      }
+    },
+    "add-to-cart": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 36,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 52,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 53,
+        "ok": 5
+      }
+    },
+    "nav-to-cart": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 843,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 338,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 422,
+        "ok": 5
+      }
+    },
+    "cart-qty-plus": {
+      "A": {
+        "inp_ms": 16,
+        "result_ms": 37,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 36,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 35,
+        "ok": 5
+      }
+    },
+    "search": {
+      "A": {
+        "inp_ms": 24,
+        "result_ms": 525,
+        "ok": 5
+      },
+      "B": {
+        "inp_ms": 16,
+        "result_ms": 531,
+        "ok": 5
+      },
+      "C": {
+        "inp_ms": 16,
+        "result_ms": 522,
+        "ok": 5
+      }
+    }
+  },
+  "errors": 0
+}
