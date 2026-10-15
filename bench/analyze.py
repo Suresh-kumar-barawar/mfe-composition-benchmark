@@ -131,8 +131,9 @@ grouped("tbt_ms", "TBT (ms)", f"Total Blocking Time ({RUNLABEL})", "tbt.png")
 fig, ax = plt.subplots(figsize=(5.2, 2.6))
 width = 0.8 / len(IMPLS)
 for i, impl in enumerate(IMPLS):
-    xs = [j - 0.4 + width * (i + 0.5) for j in range(len(PAGES))]
-    ys = [S[(impl, p, "broadband")]["js_transfer_kb_median"] for p in PAGES]
+    pts = [(j - 0.4 + width * (i + 0.5), S[(impl, p, "broadband")]["js_transfer_kb_median"])
+           for j, p in enumerate(PAGES) if (impl, p, "broadband") in S]  # pages that were measured
+    xs, ys = [x for x, _ in pts], [y for _, y in pts]
     bars = ax.bar(xs, ys, width=width - 0.04, color=COLOR[impl], label=LABEL[impl], edgecolor="white", linewidth=0.8)
     for x, y in zip(xs, ys):
         ax.text(x, y + 1.5, f"{y:.0f}", ha="center", va="bottom", fontsize=7, color="#52514e")

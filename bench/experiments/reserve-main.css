@@ -1,0 +1,5 @@
+/* Experiment "reserve-main": the content area reserves at least one full screen height, so the
+   footer starts below the visible area and is not pushed down when client-side content arrives.
+   Applied only by bench/experiments/cls-reserve.sh (appended to shared/src/styles.css during the
+   build, then removed). Same rule for A, B and C. */
+.app > main, .mfe-main { min-height: 100vh; }
