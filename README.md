@@ -50,7 +50,7 @@ c-nextjs-rsc/           C: host (Next.js App Router) + home, plp, pdp, cart MFE 
 bench/                  Lighthouse runner (run.mjs) and analysis (analyze.py)
 tests/                  functional.mjs – 14-behaviour headless-browser check for A, B and C
 catalog-api/            catalogue API: FakeStore data + images, same routes (Express; also deployable to Vercel)
-docs/                   DEPLOYMENT.md, MEASUREMENT_VALIDATION.md
+docs/                   DEPLOYMENT.md, MEASUREMENT_VALIDATION.md, EXPERIMENTS.md, QUALITATIVE.md, DECISION_FRAMEWORK.md
 .github/workflows/      ci.yml (build + tests on every push), benchmark.yml (manual benchmark runs)
 ```
 
@@ -167,4 +167,7 @@ See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md): one Vercel (Hobby, free) project
 - [x] Automated Lighthouse runner + single-run A vs B results
 - [ ] Full repeated-run benchmark (evaluating Lighthouse CI / GitHub Actions / WebPageTest API)
 - [ ] Cloud deployment (Vercel free plan, scripts ready)
-- [ ] Qualitative comparison and decision framework
+- [x] Final benchmark: 180 runs deployed + 180 runs local, INP sessions (`bench/results/final2-*`)
+- [x] Experiments: footer layout shift, `next/image`, data cache (`docs/EXPERIMENTS.md`)
+- [x] Qualitative comparison and decision framework (`docs/QUALITATIVE.md`, `docs/DECISION_FRAMEWORK.md`)
+- [ ] Final report

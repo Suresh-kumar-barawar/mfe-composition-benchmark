@@ -30,3 +30,61 @@ Broadband gives the same picture. FCP and LCP did not change beyond run-to-run n
 **Conclusion:** the layout shift of client-side composition comes from content arriving after
 the shell; reserving space for the content area removes it (A and B back under 0.03). Server-
 side composition (C) avoids it by design.
+
+## 2. Image optimisation in C (`next/image`), 15 Oct 2026
+
+**Question:** how much does Next.js's built-in image optimisation change C's results? It is
+kept out of the main comparison because A and B use the same plain `<img>` tags.
+
+**Change tested:** `C_NEXT_IMAGE=1` (runtime switch, `c-common/src/NextImg.jsx`): product images
+are rendered with `next/image`, which resizes them for the screen (`sizes`), converts them to
+WebP/AVIF, lazy-loads off-screen images and preloads the important one. Everything else unchanged.
+
+**Method:** `bash bench/experiments/c-variants.sh next-image 3` – C only, same machine,
+Home/Listing/Detail × Slow 3G/Fast 4G/Broadband × 3 runs, baseline vs `next/image`
+(27 + 27 runs, 0 errors). Results: `bench/results/exp-c-next-image/`.
+
+| C, median of 3 | Baseline (plain `<img>`) | `next/image` |
+|---|---|---|
+| LCP Home, Slow 3G | 29.4 s | **3.6 s** |
+| LCP Listing, Slow 3G | 27.4 s | **4.1 s** |
+| LCP Detail, Slow 3G | 8.8 s | **3.2 s** |
+| LCP Home / Listing, Fast 4G | 1.45 / 1.51 s | **1.02 / 1.10 s** |
+| Bytes downloaded, Home | 1,276 KB | **245 KB** |
+| Bytes downloaded, Detail | 395 KB | **153 KB** |
+| FCP, TBT, CLS | – | unchanged (within noise) |
+
+A single product image shrinks from about 270 KB (PNG) to about 20 KB (WebP).
+
+**Conclusion:** on slow networks image weight, not the composition strategy, dominates the
+largest paint. Optimising images cut C's Slow 3G LCP by about 8× – far more than any difference
+between the three strategies. The same gain is available to A and B with an image CDN or
+pre-resized images; `next/image` makes it a built-in default for C.
+
+## 3. Server-side data caching in C (`C_DATA_CACHE=1`), 15 Oct 2026
+
+**Question:** C fetches the catalogue on the server for every request. How much does caching
+those API responses (Next.js data cache, revalidated every 5 minutes) help?
+
+**Method:** `bash bench/experiments/c-variants.sh data-cache 3 150` – the catalogue API is given
+a 150 ms delay per response in **both** variants (like a backend across a network; checked:
+153 ms), C only, Home/Listing/Detail × 3 networks × 3 runs (27 + 27 runs, 0 errors).
+Results: `bench/results/exp-c-data-cache/`. Without cache C's HTML finished after ~184 ms
+(first bytes after 18 ms, products streamed when the API answered); with cache after ~20 ms.
+
+| C, median of 3 | Baseline (fetch every request) | Data cache |
+|---|---|---|
+| TTFB (all pages, all networks) | 9–21 ms | 9–24 ms |
+| LCP Broadband Home / Listing / Detail | 0.94 / 0.83 / 0.70 s | **0.78 / 0.75 / 0.61 s** |
+| LCP Fast 4G Home / Listing / Detail | 1.43 / 1.53 / 0.99 s | 1.45 / 1.54 / 0.96 s |
+| LCP Slow 3G | 29.4 / 27.4 / 8.8 s | 29.4 / 27.4 / 8.8 s |
+
+**Conclusion:** because C streams the page (Suspense), a slow backend does not delay the first
+bytes or the first paint – the shell is sent immediately and products follow. Caching only
+removes the backend wait from the moment the products appear, which is visible on fast
+networks (Broadband LCP −80 to −160 ms, about the API delay) and lost in the noise on 3G/4G,
+where the network and the images dominate.
+
+*Note:* an earlier attempt at this experiment ran without the API delay (the restart helper
+did not stop the old API process); it was discarded. The `next/image` experiment above ran with
+the same no-delay API for both of its variants, so its comparison is valid.

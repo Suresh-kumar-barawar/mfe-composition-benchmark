@@ -1,18 +1,18 @@
 import { Suspense } from 'react';
 import { Hero, Carousel, ProductCard, CategoryGrid } from '@mfe/shared/react';
 import { getFeatured, getCategories } from '@mfe/shared/api';
-import { fetchInit, failIfRequested } from 'c-common';
+import { fetchInit, failIfRequested, imageComponent } from 'c-common';
 import Link from 'c-common/Link';
 
 /** Data part of the Home MFE: fetched and rendered on the server, streamed when ready. */
 async function HomeContent() {
   failIfRequested('home');
-  const [featured, categories] = await Promise.all([getFeatured(8, fetchInit), getCategories(fetchInit)]);
+  const [featured, categories, Img] = await Promise.all([getFeatured(8, fetchInit), getCategories(fetchInit), imageComponent()]);
   return (
     <>
       <Carousel title="Featured products">
         {featured.map((p, i) => (
-          <ProductCard key={p.id} product={p} Link={Link} priority={i < 4} />
+          <ProductCard key={p.id} product={p} Link={Link} priority={i < 4} Img={Img} />
         ))}
       </Carousel>
       <CategoryGrid categories={categories} Link={Link} />

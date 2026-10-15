@@ -2,7 +2,7 @@ import Rating from './Rating.jsx';
 import { formatPrice, categoryLabel, listingHref } from '../format.js';
 
 /** PDP body. Add-to-cart is a slot (interactive), everything else is static markup. Reviews = FakeStore rating only. */
-export default function ProductDetail({ product, Link, addToCartSlot }) {
+export default function ProductDetail({ product, Link, addToCartSlot, Img = 'img' }) {
   return (
     <div className="container page">
       <nav className="breadcrumb" aria-label="Breadcrumb">
@@ -11,7 +11,7 @@ export default function ProductDetail({ product, Link, addToCartSlot }) {
       </nav>
       <div className="pdp">
         <div className="pdp__media">
-          <img src={product.image} alt={product.title} width="500" height="500" fetchpriority="high" />
+          <Img src={product.image} alt={product.title} width="500" height="500" fetchpriority="high" />
         </div>
         <div className="pdp__info">
           <span className="card__category">{categoryLabel(product.category)}</span>

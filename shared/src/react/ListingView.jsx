@@ -4,7 +4,7 @@ import Pagination from './Pagination.jsx';
 import { categoryLabel } from '../format.js';
 
 /** Complete product listing page body, given already-queried results. */
-export default function ListingView({ categories, query, result, Link, onNavigate, filtersSlot }) {
+export default function ListingView({ categories, query, result, Link, onNavigate, filtersSlot, Img }) {
   const heading = query.q ? `Results for “${query.q}”` : query.category ? categoryLabel(query.category) : 'All products';
   return (
     <div className="container page">
@@ -17,7 +17,7 @@ export default function ListingView({ categories, query, result, Link, onNavigat
           <ListingFilters categories={categories} category={query.category} sort={query.sort} q={query.q} onNavigate={onNavigate} />
         )}
       </div>
-      <ProductGrid products={result.items} Link={Link} />
+      <ProductGrid products={result.items} Link={Link} Img={Img} />
       <Pagination page={result.page} totalPages={result.totalPages} query={query} Link={Link} />
     </div>
   );

@@ -1,11 +1,11 @@
 import ProductCard from './ProductCard.jsx';
 
-export default function ProductGrid({ products, Link, priorityCount = 4 }) {
+export default function ProductGrid({ products, Link, priorityCount = 4, Img }) {
   if (!products.length) return <p className="empty">No products match your filters.</p>;
   return (
     <div className="grid">
       {products.map((p, i) => (
-        <ProductCard key={p.id} product={p} Link={Link} priority={i < priorityCount} />
+        <ProductCard key={p.id} product={p} Link={Link} priority={i < priorityCount} Img={Img} />
       ))}
     </div>
   );

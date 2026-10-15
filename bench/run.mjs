@@ -78,6 +78,7 @@ const METRIC_AUDITS = {
   tti_ms: 'interactive',
   si_ms: 'speed-index',
   max_fid_ms: 'max-potential-fid',
+  ttfb_ms: 'server-response-time', // main document: request sent -> first byte (server work)
 };
 
 // ---------------------------------------------------------------- CLI args
@@ -134,7 +135,7 @@ function extract(lhr) {
 
 const CSV_COLUMNS = [
   'timestamp', 'impl', 'strategy', 'page', 'network', 'run', 'url',
-  'perf_score', 'fcp_ms', 'lcp_ms', 'tbt_ms', 'cls', 'tti_ms', 'si_ms', 'max_fid_ms',
+  'perf_score', 'fcp_ms', 'lcp_ms', 'tbt_ms', 'cls', 'tti_ms', 'si_ms', 'max_fid_ms', 'ttfb_ms',
   'requests', 'js_requests', 'js_transfer_kb', 'js_resource_kb', 'total_transfer_kb',
   'lcp_element', 'runtime_error', 'warnings', 'duration_s',
 ];

@@ -21,7 +21,7 @@ RUN = Path(sys.argv[1])
 rows = [r for r in csv.DictReader(open(RUN / "results.csv")) if not r["runtime_error"]]
 errors = [r for r in csv.DictReader(open(RUN / "results.csv")) if r["runtime_error"]]
 
-METRICS = ["fcp_ms", "lcp_ms", "tti_ms", "tbt_ms", "si_ms", "cls", "perf_score",
+METRICS = ["fcp_ms", "lcp_ms", "tti_ms", "tbt_ms", "si_ms", "cls", "perf_score", "ttfb_ms",
            "js_transfer_kb", "js_requests", "requests", "total_transfer_kb"]
 IMPLS = sorted({r["impl"] for r in rows})
 PAGES = ["home", "plp", "pdp", "cart"]
@@ -47,7 +47,7 @@ summary = []
 for (impl, page, net), rs in sorted(groups.items()):
     out = {"impl": impl, "page": page, "network": net, "n": len(rs)}
     for m in METRICS:
-        vals = [float(r[m]) for r in rs if r[m] != ""]
+        vals = [float(r[m]) for r in rs if r.get(m, "") != ""]  # older runs have no ttfb_ms
         if not vals:
             continue
         out[f"{m}_median"] = round(st.median(vals), 4 if m == "cls" else 1)

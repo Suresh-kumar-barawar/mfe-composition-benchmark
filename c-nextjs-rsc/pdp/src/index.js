@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { ProductDetail, ProductDetailSkeleton, AddToCart } from '@mfe/shared/react';
 import { getProduct } from '@mfe/shared/api';
-import { fetchInit, failIfRequested } from 'c-common';
+import { fetchInit, failIfRequested, imageComponent } from 'c-common';
 import Link from 'c-common/Link';
 
 function NotFound() {
@@ -23,7 +23,8 @@ async function DetailContent({ id }) {
   }
   if (!product?.id) return <NotFound />;
   // Only the add-to-cart button is a client component; the rest of the page is server HTML.
-  return <ProductDetail product={product} Link={Link} addToCartSlot={<AddToCart product={product} />} />;
+  const Img = await imageComponent();
+  return <ProductDetail product={product} Link={Link} Img={Img} addToCartSlot={<AddToCart product={product} />} />;
 }
 
 /** Product detail micro frontend (React Server Component, streamed through Suspense). */

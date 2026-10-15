@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { ListingView, ProductGridSkeleton } from '@mfe/shared/react';
 import { getCategories, getListingProducts, queryProducts } from '@mfe/shared/api';
-import { fetchInit, failIfRequested } from 'c-common';
+import { fetchInit, failIfRequested, imageComponent } from 'c-common';
 import Link from 'c-common/Link';
 import ListingFiltersNav from './ListingFiltersNav.jsx';
 
@@ -14,13 +14,14 @@ export function parseListingQuery(sp = {}) {
 async function ListingContent({ query }) {
   failIfRequested('plp');
   // FakeStore has no search/sort/paging: fetch the category, then query on the server.
-  const [categories, products] = await Promise.all([getCategories(fetchInit), getListingProducts(query.category, fetchInit)]);
+  const [categories, products, Img] = await Promise.all([getCategories(fetchInit), getListingProducts(query.category, fetchInit), imageComponent()]);
   return (
     <ListingView
       categories={categories}
       query={query}
       result={queryProducts(products, query)}
       Link={Link}
+      Img={Img}
       filtersSlot={<ListingFiltersNav categories={categories} query={query} />}
     />
   );

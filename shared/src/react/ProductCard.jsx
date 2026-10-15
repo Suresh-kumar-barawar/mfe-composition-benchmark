@@ -1,13 +1,16 @@
 import Rating from './Rating.jsx';
 import { formatPrice, categoryLabel } from '../format.js';
 
-/** `Link` is supplied by each implementation (React Router, single-spa or Next.js link). */
-export default function ProductCard({ product, Link, priority = false }) {
+/**
+ * `Link` is supplied by each implementation (React Router, single-spa or Next.js link).
+ * `Img` defaults to a plain <img>; only C's next/image experiment passes another component.
+ */
+export default function ProductCard({ product, Link, priority = false, Img = 'img' }) {
   return (
     <article className="card">
       <Link href={`/product/${product.id}`} className="card__link">
         <div className="card__media">
-          <img
+          <Img
             src={product.image}
             alt={product.title}
             width="300"
