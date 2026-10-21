@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite the paper below."
+title: "mfe-composition-benchmark"
+authors:
+  - family-names: Kumar
+    given-names: Suresh
+    orcid: "https://orcid.org/0009-0009-7634-0881"
+    affiliation: "Birla Institute of Technology and Science, Pilani"
+license: MIT
+repository-code: "https://github.com/Suresh-kumar-barawar/mfe-composition-benchmark"
+preferred-citation:
+  type: article
+  title: "Where should micro frontends be composed? An empirical comparison of Module Federation, Single-SPA and React Server Components"
+  authors:
+    - family-names: Kumar
+      given-names: Suresh
+      orcid: "https://orcid.org/0009-0009-7634-0881"
+  doi: "10.5281/zenodo.23541919"
+  year: 2026
+  publisher:
+    name: Zenodo

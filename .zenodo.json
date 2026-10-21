@@ -1,0 +1,13 @@
+{
+  "title": "mfe-composition-benchmark: three micro frontend composition strategies (Module Federation, Single-SPA, React Server Components) and their benchmark",
+  "upload_type": "software",
+  "description": "Source code, automated benchmark pipeline (Lighthouse, interaction sessions, GitHub Actions) and raw results for the study 'Where should micro frontends be composed? An empirical comparison of Module Federation, Single-SPA and React Server Components'. The same four-page e-commerce application is implemented with Webpack Module Federation, Single-SPA and React Server Components in Next.js 15.",
+  "creators": [
+    { "name": "Kumar, Suresh", "affiliation": "Birla Institute of Technology and Science, Pilani", "orcid": "0009-0009-7634-0881" }
+  ],
+  "license": "MIT",
+  "keywords": ["Micro frontends", "Module Federation", "Single-SPA", "React Server Components", "Next.js", "Web performance", "Core Web Vitals", "Benchmark"],
+  "related_identifiers": [
+    { "identifier": "10.5281/zenodo.23541919", "relation": "isSupplementTo", "scheme": "doi", "resource_type": "publication-preprint" }
+  ]
+}
