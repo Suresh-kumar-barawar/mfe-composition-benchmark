@@ -7,6 +7,10 @@ authors:
     orcid: "https://orcid.org/0009-0009-7634-0881"
     affiliation: "Birla Institute of Technology and Science, Pilani"
 license: MIT
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23547577"
+    description: "Archived code and data, v1.0.0"
 repository-code: "https://github.com/Suresh-kumar-barawar/mfe-composition-benchmark"
 preferred-citation:
   type: article

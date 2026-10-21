@@ -6,6 +6,8 @@ Part of the M.Tech (Software Engineering) dissertation *"Performance Comparison 
 
 **Paper (preprint):** Kumar, S. (2026). *Where should micro frontends be composed? An empirical comparison of Module Federation, Single-SPA and React Server Components.* Zenodo. https://doi.org/10.5281/zenodo.23541919 — see `CITATION.cff`. Code licensed under MIT (`LICENSE`).
 
+**Code and data (v1.0.0, archived):** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23547577.svg)](https://doi.org/10.5281/zenodo.23547577)
+
 | # | Strategy | Composition happens | Folder | Status |
 |---|----------|--------------------|--------|--------|
 | A | Webpack 5 Module Federation | Build-time contracts, loaded at runtime by a host shell | `a-module-federation/` | ✅ Done |
